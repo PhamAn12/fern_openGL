@@ -1,3 +1,4 @@
+
 // khaOn.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
@@ -22,8 +23,7 @@ void draw();
 struct {
 	char f = 'F';
 	string F = "![+++++F][-------F]-![++++F][------F]-![+++F][-----F]-![F]";
-	//string F = "![+++++F][-------F]![++++F][------F]![+++F][-----F]![F]";
-	//string F = "F+F--F+F";
+
 }Rules;
 
 string axiom = "F";
@@ -144,12 +144,18 @@ void push() {
 void pop() {
 	glPopMatrix();
 }
-void genarate() {
-	leng1 = 0.75*leng1;
-	leng2 = 0.75*leng2;
-	leng3 = 0.75*leng3;
-	leng4 = 0.75*leng4;
-	leng5 = 0.75*leng5;
+void length (float x) {
+	leng1 = x*leng1;
+	leng2 = x*leng2;
+	leng3 = x*leng3;
+	leng4 = x*leng4;
+	leng5 = x*leng5;
+}
+void genarate(int i) {
+	if (i==3) length(0.75);
+	else if (i==2) length(0.55);
+	else if (i==4) length (0.85);
+	else if (i=1) length (0.5);
 	string strCurent = "";
 	for (int i = 0; i < str.length(); i++) {
 		char curent =  str.at(i);
@@ -169,7 +175,7 @@ void genarate() {
 
 void draw() {
 	stack <char> S;
-	glTranslatef(0,-5,0);
+	glTranslatef(0,-7,0);
 	for (int i = 0; i < str.length(); i++) {
 		char curent = str.at(i);
 		if (curent == 'F') {
@@ -202,31 +208,55 @@ void draw() {
 		}
 	}
 }
+void resize(int width, int height) {
+    // we ignore the params and do:
+    glutReshapeWindow( 500, 500);
+}
 int main()
 {
 	glutInitDisplayMode(GLUT_SINGLE || GLUT_RGB);
 
 	glutInitWindowSize(700, 700);
-
+	
 	glutInitWindowPosition(100, 100);
 
 	glutCreateWindow("BTL");
 
 	Init();
-	for (int i = 0; i <4; i++) {
-		genarate();
-		cout<< "\n";
-
-	}
-	glutReshapeFunc(ReShape);
+	int n;
+	cout << "Press generate : " ;
+	cin >> n;
 	
+	if (n==1) {
+		for (int i=0; i<1; i++) {
+			genarate(1);
+		}
+	}
+	
+	else if (n == 2) {
+		for (int i=0; i<2; i++) {
+			genarate (2);
+		}
+	}
+	else if (n == 3) {
+		for (int i=0; i<3; i++) {
+			genarate (3);
+		}
+	}
+	else if(n==4) {
+		for (int i=0; i<4; i++) {
+			genarate(4);
+		}
+	}
+	
+	
+	glutReshapeFunc(ReShape);
 	glutDisplayFunc(RenderScene);
+	
 	glutMainLoop();
 
 	return 0;
 	
 	
 }
-
-
 
